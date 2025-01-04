@@ -1,0 +1,2 @@
+id,date,description,amount
+1,2025-01-03,lunch,50
