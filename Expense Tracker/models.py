@@ -15,11 +15,11 @@ def read_expense():
         return int(id)+1
 
 class Expense:
-    def __init__(self, description, amount):
-        self.id = read_expense()
+    def __init__(self, description, amount, id=None, createdAt=datetime.datetime.now().strftime('%Y-%m-%d')):
+        self.id = id if id is not None else read_expense()
         self.description = description
         self.amount = amount
-        self.createdAt = datetime.datetime.now().strftime('%Y-%m-%d')
+        self.createdAt = createdAt
     
     def __repr__(self):
         return f'{self.id},{self.createdAt},{self.description},{self.amount}'

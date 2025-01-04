@@ -3,11 +3,9 @@ import pandas as pd
 
 PATH = 'database.txt'
 
-def write_expense(description, amount):
-    new_expense = Expense(description, amount)
-
+def write_expense(expense):
     with open(PATH, 'a') as f:
-        f.write(str(new_expense)+'\n')
+        f.write(str(expense)+'\n')
 
 def read_expense():
     with open(PATH, 'r') as f:
@@ -17,14 +15,10 @@ def read_expense():
     
     return texts
 
-def write_expense(id, date, description, amount):
-    text = id + ',' + date + ',' + description + ',' + amount
-    with open(PATH, 'a') as f:
-        f.write(text)
-
 class ExpenseDao:
     def add_expense(description, amount):
-        write_expense(description, amount)
+        new_expense = Expense(description, amount)
+        write_expense(new_expense)
     
     def print_expenses():
         data = read_expense()
@@ -42,16 +36,17 @@ class ExpenseDao:
         
         print(total_amount)
     
-    def delete_expense(d_id):
+    def delete_expense(delete_id):
         data = read_expense()
         with open(PATH, 'w') as f:
             f.write('id,date,description,amount\n')
 
         for line in data[1:]:
             id, date, description, amount = line.split(',')
-            if id == d_id:
+            if int(id) == delete_id:
                 continue
-            write_expense(id, date, description, amount)
+            expense = Expense(description, int(amount), id, date)
+            write_expense(expense)
         
     def summary_expense_month(month):
         data = read_expense()
@@ -64,17 +59,21 @@ class ExpenseDao:
         
         print(total_amount)
     
-    def update_expense(u_id, u_description, u_amount):
+    def update_expense(update_id, update_description, update_amount):
         data = read_expense()
         with open(PATH, 'w') as f:
             f.write('id,date,description,amount\n')
 
         for line in data[1:]:
             id, date, description, amount = line.split(',')
-            if id == u_id:
-                write_expense(id, date, u_description, str(u_amount)+'\n')
-            else:
-                write_expense(id, date, description, amount)
+            new_description = description
+            new_amount = int(amount)
+            if int(id) == update_id:
+                new_description = update_description
+                new_amount = int(update_amount)
+            
+            expense = Expense(new_description, new_amount, id, date)
+            write_expense(expense)
     
     def export_expenses():
         df = pd.read_csv(PATH)
