@@ -1,23 +1,9 @@
 [
     {
         "id": 1,
-        "description": "Buy groceries and cook dinner",
-        "status": "done",
-        "createdAt": "2025-01-01 20:01:44",
-        "updatedAt": "2025-01-01 20:02:53"
-    },
-    {
-        "id": 3,
-        "description": "sleep",
-        "status": "todo",
-        "createdAt": "2025-01-01 20:01:55",
-        "updatedAt": "2025-01-01 20:01:55"
-    },
-    {
-        "id": 4,
-        "description": "Music",
-        "status": "done",
-        "createdAt": "2025-01-01 20:02:10",
-        "updatedAt": "2025-01-01 20:03:05"
+        "description": "study",
+        "status": "in-progress",
+        "createdAt": "2025-01-04 20:03:43",
+        "updatedAt": "2025-01-04 20:06:38"
     }
 ]
