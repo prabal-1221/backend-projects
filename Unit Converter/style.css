@@ -1,35 +1,151 @@
-.results p {
+/* General Styles */
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Poppins', Arial, sans-serif;
     margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
+/* Page Layout */
+.page-content {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+/* Headings */
+.page-content h1 {
+    font-size: 2rem;
+    color: #00bcd4;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
 .buttons button {
     padding: 10px 20px;
-    margin-right: 5px;
+    margin: 5px;
+    border: 1px solid #00bcd4;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #00bcd4;
     cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
-.buttons button.active {
-    background-color: #007BFF;
-    color: white;
-    border: none;
+.buttons button.active,
+.buttons button:hover {
+    background-color: #00bcd4;
+    color: #121212;
 }
 
-.form-container, .results {
+/* Form Container */
+.form-container {
     display: none;
+    margin-top: 20px;
 }
 
-.form-container.active, .results.active  {
+.form-container.active {
     display: block;
 }
 
-.page-content {
-    max-width: 50%;
-    max-height: 100%;
-    margin: auto;
-    background-color: white;
-    padding: 10px;
+/* Labels */
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #b0b0b0;
 }
 
-body {
-    background-color: black;
+/* Inputs */
+form input[type="number"],
+form select {
+    width: 100%;
+    padding: 10px 15px; /* Added padding for better alignment */
+    margin-bottom: 15px;
+    border: 1px solid #b0b0b0;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+}
+
+form input[type="number"]:focus,
+form select:focus {
+    border-color: #00bcd4;
+    outline: none;
+}
+
+/* Remove spinner buttons for number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+/* Submit Button */
+form input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #00bcd4;
+    color: #121212;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover {
+    background-color: #0288d1;
+}
+
+/* Results Section */
+.results {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.7);
+    display: none;
+}
+
+.results.active {
+    display: block;
+}
+
+.results p {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.results span {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #00bcd4;
+}
+
+.results button {
+    padding: 10px 15px;
+    border: 1px solid #00bcd4;
+    border-radius: 5px;
+    background-color: transparent;
+    color: #00bcd4;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.results button:hover {
+    background-color: #00bcd4;
+    color: #121212;
 }
