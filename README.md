@@ -8,5 +8,6 @@ This repository contains solutions to backend projects from [Roadmap.sh](https:/
 - [GitHub User Activity](https://roadmap.sh/projects/github-user-activity)
 - [Expense Tracker](https://roadmap.sh/projects/expense-tracker)
 - [Number Guessing Game](https://roadmap.sh/projects/number-guessing-game)
+- [Unit Converter](https://roadmap.sh/projects/unit-converter)
 
 Each folder inside the `backend-projects/` directory corresponds to a specific project from the Roadmap.sh backend project list.
