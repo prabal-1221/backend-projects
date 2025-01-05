@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+</head>
+<body>
+    <div class="page-content">
+        <h1>Unit Converter</h1>
+        <div class="buttons">
+            <button id="btn1" class="active" onclick="showForm(1)">Length</button>
+            <button id="btn2" onclick="showForm(2)">Weight</button>
+            <button id="btn3" onclick="showForm(3)">Temperature</button>
+        </div>
+        <div id="form1" class="form-container active">
+            <form onsubmit="handleFormLength(event)">
+                <label for="input-length">Enter the Length to Convert</label>
+                <input type="number" step="0.01" id="input-length">
+                <br>
+                <label for="input-unit-length">Unit to Convert from</label>
+                <select id="input-unit-length">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <label for="output-unit-length">Unit to Convert to</label>
+                <select id="output-unit-length">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <input type="submit" value="Convert">
+            </form>
+        </div>
+
+        <div id="form2" class="form-container">
+            <form onsubmit="handleFormWeight(event)">
+                <label for="input-weight">Enter the Weight to Convert</label>
+                <input type="number" step="0.01" id="input-weight">
+                <br>
+                <label for="input-unit-weight">Unit to Convert from</label>
+                <select id="input-unit-weight">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <label for="output-unit-weight">Unit to Convert to</label>
+                <select id="output-unit-weight">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <input type="submit" value="Convert">
+            </form>
+        </div>
+
+        <div id="form3" class="form-container">
+            <form onsubmit="handleFormTemperature(event)">
+                <label for="input-temperature">Enter the Temperature to Convert</label>
+                <input type="number" step="0.01" id="input-temperature">
+                <br>
+                <label for="input-unit-temperature">Unit to Convert from</label>
+                <select id="input-unit-temperature">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <label for="output-unit-temperature">Unit to Convert to</label>
+                <select id="output-unit-temperature">
+                    <option value="kilometer">kilometer</option>
+                    <option value="meter">meter</option>
+                    <option value="centimeter">centimeter</option>
+                </select>
+                <br>
+                <input type="submit" value="Convert">
+            </form>
+        </div>
+        <br>
+
+        <div id="results" class="results">
+            <p>The Result of your Calculation</p>
+            <span></span>
+            <br>
+            <button onclick="resetResults()">Reset</button>
+        </div>
+    </div>
+</body>
+</html>

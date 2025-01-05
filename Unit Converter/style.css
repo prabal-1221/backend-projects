@@ -1,0 +1,35 @@
+.results p {
+    margin: 0;
+}
+
+.buttons button {
+    padding: 10px 20px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.buttons button.active {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+}
+
+.form-container, .results {
+    display: none;
+}
+
+.form-container.active, .results.active  {
+    display: block;
+}
+
+.page-content {
+    max-width: 50%;
+    max-height: 100%;
+    margin: auto;
+    background-color: white;
+    padding: 10px;
+}
+
+body {
+    background-color: black;
+}
