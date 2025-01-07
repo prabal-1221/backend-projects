@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Personal Blog</h1>
+    <button> + ADD </button>
+    {% if articles %}
+    <ul>
+        {% for article in articles %}
+            <li>{{ article[0] }} {{ article[1] }} <button> UPDATE </button> <button> DELETE </button></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
