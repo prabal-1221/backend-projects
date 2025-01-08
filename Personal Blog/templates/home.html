@@ -7,14 +7,10 @@
 </head>
 <body>
     <h1>Personal Blog</h1>
-    <button><a href="/add"> + ADD </a></button>
     {% if articles %}
     <ul>
         {% for article in articles %}
-            <li>{{ article[0] }} {{ article[1] }} 
-                <button> <a href="/update/{{ article[2] }}">UPDATE </a> </button> 
-                <button> <a href="/delete/{{ article[2] }}"> DELETE </a> </button>
-            </li>
+            <li><a href="/article/{{ article[2] }}">{{ article[0] }} {{ article[1] }} </a></li>
         {% endfor %}
     </ul>
     {% endif %}

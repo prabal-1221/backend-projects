@@ -25,7 +25,7 @@ async def articles_list(request: Request):
     for data in file_data:
         articles.append((data[0]['title'], data[0]['date'], data[1]))
 
-    return templates.TemplateResponse('index.html', {'request': request, 'articles':articles})
+    return templates.TemplateResponse('home.html', {'request': request, 'articles':articles})
 
 @user_route.get('/article/{article_id}')
 async def one_article(article_id: int, request: Request):
