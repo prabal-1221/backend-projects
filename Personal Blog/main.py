@@ -42,7 +42,3 @@ async def not_admin(request: Request):
 async def logout(request: Request):
     request.session.clear()
     return RedirectResponse(url='/', status_code=303)
-
-@app.get('/calendar')
-async def calendar(request: Request):
-    return templates.TemplateResponse('calendar.html', {'request': request})
