@@ -5,7 +5,6 @@ import json
 from fastapi.responses import RedirectResponse
 import os
 import json
-from main import LOG_IN
 
 templates = Jinja2Templates('templates')
 
@@ -13,6 +12,9 @@ admin_route = APIRouter()
 
 @admin_route.get('/admin')
 async def article_list(request: Request):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+
     articles = []
 
     files = []
@@ -33,11 +35,16 @@ async def article_list(request: Request):
 
 @admin_route.get('/add')
 async def add_article(request: Request):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+    
     return templates.TemplateResponse('add.html', {'request': request})
 
 @admin_route.post("/add")
-async def add_article(title: str = Form(...), date: str = Form(...), content: str = Form(...)):
-
+async def add_article(request: Request, title: str = Form(...), date: str = Form(...), content: str = Form(...)):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+    
     files = os.listdir('articles')
     filename = str(int(files[-1].split('.')[0])+1) + '.json'
 
@@ -50,13 +57,18 @@ async def add_article(title: str = Form(...), date: str = Form(...), content: st
 
 @admin_route.get('/update/{article_id}')
 async def add_article(article_id: str, request: Request):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+    
     with open('articles/'+f'{article_id}.json', 'r') as f:
         article = json.load(f)
     return templates.TemplateResponse('update.html', {'request': request, 'article': article, 'article_id': article_id})
 
 @admin_route.post("/update/{article_id}")
-async def add_article(article_id: str, title: str = Form(...), date: str = Form(...), content: str = Form(...)):
-
+async def add_article(request: Request, article_id: str, title: str = Form(...), date: str = Form(...), content: str = Form(...)):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+    
     data = {'title': title, 'date': date, 'content': content}
 
     with open('articles/'+article_id+'.json', 'w') as f:
@@ -65,7 +77,10 @@ async def add_article(article_id: str, title: str = Form(...), date: str = Form(
     return RedirectResponse(url="/admin", status_code=303)
 
 @admin_route.get("/delete/{article_id}")
-async def add_article(article_id: str):
+async def add_article(request: Request, article_id: str):
+    if not request.session or request.session['user'] != 'admin':
+        return RedirectResponse(url='/home')
+    
     os.remove('articles/'+article_id+'.json')
 
     return RedirectResponse(url="/admin", status_code=303)

@@ -3,20 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/static/style.css"> <!-- Updated CSS link -->
 </head>
 <body>
-    <h1>Personal Blog</h1>
-    <button><a href="/add"> + ADD </a></button>
-    {% if articles %}
-    <ul>
-        {% for article in articles %}
-            <li>{{ article[0] }} {{ article[1] }} 
-                <button> <a href="/update/{{ article[2] }}">UPDATE </a> </button> 
-                <button> <a href="/delete/{{ article[2] }}"> DELETE </a> </button>
-            </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <header>
+        <h1>Personal Blog</h1>
+    </header>
+    <div class="container">
+        <div class="buttons">
+            <a href="/add"><button>ADD</button></a>
+            <a href="/logout"><button>LOG OUT</button></a>
+        </div>
+        {% if articles %}
+        <ul class="article-list">
+            {% for article in articles %}
+                <li>
+                    <a href="/article/{{ article[2] }}">{{ article[0] }} - {{ article[1] }}</a>
+                    <div>
+                        <a href="/update/{{ article[2] }}"><button>Edit</button></a>
+                        <a href="/delete/{{ article[2] }}"><button>Delete</button></a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            <p>No articles found.</p>
+        {% endif %}
+    </div>
 </body>
 </html>

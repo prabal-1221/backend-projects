@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <h1>Personal Blog</h1>
-    {% if articles %}
-    <ul>
-        {% for article in articles %}
-            <li><a href="/article/{{ article[2] }}">{{ article[0] }} {{ article[1] }} </a></li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <header>
+        <h1>Personal Blog</h1>
+    </header>
+    <div class="container">
+        <ul class="article-list">
+            {% if articles %}
+                {% for article in articles %}
+                    <li>
+                        <a href="/article/{{ article[2] }}">{{ article[0] }} - {{ article[1] }}</a>
+                    </li>
+                {% endfor %}
+            {% else %}
+                <p>No articles found.</p>
+            {% endif %}
+        </ul>
+    </div>
 </body>
 </html>

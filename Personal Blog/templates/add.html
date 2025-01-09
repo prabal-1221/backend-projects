@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>New Article</title>
+    <link rel="stylesheet" href="/static/style.css"> <!-- Updated CSS link -->
 </head>
 <body>
-    <h1>New Article</h1>
-    <form action="/add" method="post">
-        <input type="text" id="title" name="title" placeholder="Article Title" required>
-        <br>
-        <input type="date" id="date" name="date" placeholder="Publishing Date" required>
-        <br>
-        <textarea id="content" name="content" placeholder="content" required></textarea>
-        <br>
-        <button type="submit">Publish</button>
-    </form>
+    <header>
+        <h1>Personal Blog</h1>
+    </header>
+    <div class="container">
+        <h1>New Article</h1>
+        <form action="/add" method="post">
+            <input type="text" id="title" name="title" placeholder="Article Title" required>
+            <input type="date" id="date" name="date" placeholder="Publishing Date" required>
+            <textarea id="content" name="content" placeholder="Content" required></textarea>
+            <button type="submit">Publish</button>
+        </form>
+    </div>
 </body>
 </html>
