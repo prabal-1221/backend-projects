@@ -10,5 +10,6 @@ This repository contains solutions to backend projects from [Roadmap.sh](https:/
 - [Number Guessing Game](https://roadmap.sh/projects/number-guessing-game)
 - [Unit Converter](https://roadmap.sh/projects/unit-converter)
 - [Personal Blog](https://roadmap.sh/projects/personal-blog)
+- [Weather API](https://roadmap.sh/projects/weather-api-wrapper-service)
 
 Each folder inside the `backend-projects/` directory corresponds to a specific project from the Roadmap.sh backend project list.
