@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, HTTPException
 import requests
 from dotenv import load_dotenv
 import os
@@ -30,6 +30,10 @@ def index(city: str, country: str, date1: Optional[str]=None, date2: Optional[st
         return json.loads(response_string)
 
     response = requests.get(url)
+
+    if response.status_code == 429:
+        raise HTTPException(status_code=status.HTTP_429_TOO_MANY_REQUESTS, detail="Rate limit exceeded. Please try again later.")
+
     response_string = json.dumps(response.json())
     cache.set(url, response_string)
     return response.json()
