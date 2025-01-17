@@ -4,9 +4,11 @@ from users.user_controller import user_route
 from users.user_controller import get_current_user
 from typing import Annotated
 from sqlalchemy.orm import Session
+from tasks.task_controller import task_route
 
 app = FastAPI()
 app.include_router(user_route)
+app.include_router(task_route)
 
 create_db()
 

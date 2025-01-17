@@ -11,10 +11,10 @@ from database import init_db
 sys.path.append('..')
 from users.user_controller import get_current_user
 
-task_route = APIRouter('/todos')
+task_route = APIRouter(prefix='/todos')
 
-db_dependency = Annotated[Session, init_db]
-user_dependency = Annotated[dict, get_current_user]
+db_dependency = Annotated[Session, Depends(init_db)]
+user_dependency = Annotated[dict, Depends(get_current_user)]
 
 @task_route.post('/')
 def create_task(task_data: TaskRequest, db: db_dependency, user: user_dependency):
@@ -75,12 +75,16 @@ def get_tasks(page: int, limit: int, db: db_dependency, user: user_dependency):
     tasks = db.query(Task).all()
     total = len(tasks)
 
+    last_page = total//limit + ((total%limit) != 0)
+    if page > last_page:
+        return {'message': "Page doesn't exist"}
+
     prev = None
     if page != 1:
         prev = f'/todos?page={page-1}&limit={limit}'
     
     next = None
-    if page*limit >= total:
+    if page*limit <= total:
         next = f'/todos?page={page+1}&limit={limit}'
 
     return {'data': tasks[start: end], 'page': page, 'limit': limit, 'total': total, 'prev': prev, 'next': next}
