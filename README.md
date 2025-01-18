@@ -13,5 +13,6 @@ This repository contains solutions to backend projects from [Roadmap.sh](https:/
 - [Weather API](https://roadmap.sh/projects/weather-api-wrapper-service)
 - [Blogging Platform API](https://roadmap.sh/projects/blogging-platform-api)
 - [Todo List API](https://roadmap.sh/projects/todo-list-api)
+- [Expense Tracker API](https://roadmap.sh/projects/expense-tracker-api)
 
 Each folder inside the `backend-projects/` directory corresponds to a specific project from the Roadmap.sh backend project list.
