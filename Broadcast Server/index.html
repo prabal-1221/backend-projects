@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat App</title>
+  <style>
+    /* Dark + Green Theme */
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1a1a1a; /* Dark background */
+        font-family: Arial, sans-serif;
+        color: #e0e0e0; /* Light text color */
+    }
+
+    /* Chat UI container */
+    #chat-ui {
+        display: flex;
+        width: 800px;
+        height: 500px;
+        background-color: #2a2a2a; /* Darker container background */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        overflow: hidden;
+    }
+
+    /* Chat container */
+    #chat-container {
+        flex: 3;
+        display: flex;
+        flex-direction: column;
+        border-right: 1px solid #444; /* Darker border */
+    }
+
+    /* Messages area */
+    #messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 10px;
+        border-bottom: 1px solid #444; /* Darker border */
+    }
+
+    /* Input section */
+    #input-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+    }
+
+    /* User list container */
+    #user-list {
+        flex: 1;
+        background-color: #333; /* Darker background for user list */
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    /* User list item styling */
+    #user-list div {
+        padding: 5px;
+        margin: 5px 0;
+        border-bottom: 1px solid #444; /* Darker border */
+        color: #e0e0e0; /* Light text color */
+    }
+
+    /* Input fields */
+    input[type="text"] {
+        flex: 1;
+        padding: 5px;
+        border: 1px solid #444; /* Darker border */
+        border-radius: 3px;
+        background-color: #333; /* Darker input background */
+        color: #e0e0e0; /* Light text color */
+    }
+
+    /* Button styling */
+    button {
+        padding: 5px 10px;
+        margin-left: 5px;
+        background-color: #28a745; /* Green button */
+        color: white;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #218838; /* Darker green on hover */
+    }
+
+    button:disabled {
+        background-color: #666; /* Disabled button color */
+        cursor: not-allowed;
+    }
+
+    /* Message styling */
+    #messages div {
+        padding: 5px;
+        margin: 5px 0;
+        background-color: #333; /* Darker message background */
+        border-radius: 3px;
+        color: #e0e0e0; /* Light text color */
+    }
+
+    #messages div strong {
+        color: #28a745; /* Green color for sender name */
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-ui">
+    <!-- Left Section: Chat Messages -->
+    <div id="chat-container">
+      <div id="messages"></div>
+      <div id="input-container">
+        <input type="text" id="username" placeholder="Enter your username" />
+        <button id="connect-btn">Connect</button>
+      </div>
+      <div id="input-container" style="display: none;">
+        <input type="text" id="message" placeholder="Type a message" />
+        <button id="send-btn" disabled>Send</button>
+      </div>
+    </div>
+
+    <!-- Right Section: Active Users -->
+    <div id="user-list">
+      <strong>Active Users:</strong>
+    </div>
+  </div>
+
+  <script>
+    let websocket;
+    const usernameInput = document.getElementById("username");
+    const connectButton = document.getElementById("connect-btn");
+    const messageInput = document.getElementById("message");
+    const sendButton = document.getElementById("send-btn");
+    const messagesDiv = document.getElementById("messages");
+    const inputContainer = document.querySelectorAll("#input-container")[1];
+    const userListDiv = document.getElementById("user-list");
+
+    connectButton.addEventListener("click", () => {
+      const username = usernameInput.value.trim();
+      if (!username) {
+        alert("Please enter a username.");
+        return;
+      }
+
+      // Connect to WebSocket server
+      websocket = new WebSocket(`ws://localhost:8000/ws?username=${encodeURIComponent(username)}`);
+
+      websocket.onopen = () => {
+        usernameInput.style.display = "none";
+        connectButton.style.display = "none";
+        inputContainer.style.display = "flex";
+        sendButton.disabled = false;
+      };
+
+      websocket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+
+          if (data.type === "user_list") {
+            updateUserList(data.users);
+          } else {
+            appendMessage(data.sender, data.message);
+          }
+        } catch {
+          const [sender, message] = event.data.split(":", 2);
+          appendMessage(sender, message.trim());
+        }
+      };
+
+      websocket.onclose = () => {
+        appendMessage("System", "Disconnected from the server.");
+        usernameInput.style.display = "inline-block";
+        connectButton.style.display = "inline-block";
+        inputContainer.style.display = "none";
+        sendButton.disabled = true;
+      };
+
+      websocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+        appendMessage("System", "An error occurred.");
+      };
+    });
+
+    sendButton.addEventListener("click", () => {
+      const message = messageInput.value.trim();
+      if (message && websocket.readyState === WebSocket.OPEN) {
+        websocket.send(message);
+        messageInput.value = "";
+      }
+    });
+
+    messageInput.addEventListener("keypress", (event) => {
+      if (event.key === "Enter" && !sendButton.disabled) {
+        sendButton.click();
+      }
+    });
+
+    function appendMessage(sender, message) {
+      const div = document.createElement("div");
+      div.innerHTML = `<strong>${sender}:</strong> ${message}`;
+      messagesDiv.appendChild(div);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function updateUserList(users) {
+      userListDiv.innerHTML = "<strong>Active Users:</strong>";
+      users.forEach((user) => {
+        const userDiv = document.createElement("div");
+        userDiv.textContent = user;
+        userListDiv.appendChild(userDiv);
+      });
+    }
+  </script>
+</body>
+</html>
