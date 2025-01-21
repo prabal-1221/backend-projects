@@ -17,5 +17,6 @@ This repository contains solutions to backend projects from [Roadmap.sh](https:/
 - [Caching Proxy](https://roadmap.sh/projects/caching-server)
 - [Markdown Note-taking App](https://roadmap.sh/projects/markdown-note-taking-app)
 - [URL Shortening Service](https://roadmap.sh/projects/url-shortening-service)
+- [Broadcast Server](https://roadmap.sh/projects/broadcast-server)
 
 Each folder inside the `backend-projects/` directory corresponds to a specific project from the Roadmap.sh backend project list.
