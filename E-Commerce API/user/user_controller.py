@@ -45,7 +45,7 @@ def login_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: d
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="user not authenticated.")
     
-    token = create_token(user, timedelta(minutes=2))
+    token = create_token(user, timedelta(minutes=200))
 
     return {'access_token': token, 'token_type': 'bearer'}
 
