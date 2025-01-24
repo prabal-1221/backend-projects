@@ -19,8 +19,8 @@ user_dependency = Annotated[dict, Depends(get_current_user)]
 
 @cart_route.get('/', tags=["cart"])
 def get_cart(user: user_dependency, db: db_dependency):
-    if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='user not authenticated.')
+    if not user: 
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='user not authenticated.')
     
     user_db = db.query(User).filter(User.user_id == user['user_id']).first()
     cart_item = db.query(CartItem).filter(

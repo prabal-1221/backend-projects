@@ -33,7 +33,9 @@ def create_user(user_data: UserRequest, db: db_dependency):
     new_cart = Cart(user = new_user)
 
     db.add(new_user)
-    db.commit()
+    db.add(new_cart)  # Add the new cart to the session
+    db.commit()  # Commit both user and cart to the database
+
 
 @user_route.post("/login", tags=["user"])
 def login_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency):
@@ -43,11 +45,12 @@ def login_user(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: d
     user = authenticate_user(username, password, db)
 
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="user not authenticated.")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not authenticated.")
     
-    token = create_token(user, timedelta(minutes=200))
+    token = create_token(user)
 
     return {'access_token': token, 'token_type': 'bearer'}
+
 
 
 def authenticate_user(username: str, password: str, db: Session):
@@ -58,11 +61,12 @@ def authenticate_user(username: str, password: str, db: Session):
     
     return user
 
-def create_token(user, timeout):
+def create_token(user, timeout: timedelta = timedelta(minutes=15)):
     encode = {'user_id': user.user_id, 'username': user.username}
     expiry = datetime.now(timezone.utc) + timeout
     encode.update({'exp': expiry})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
+
 
 def get_current_user(token: Annotated[str, Depends(oath2_bearer)], db: db_dependency):
     try:

@@ -28,14 +28,7 @@ USERNAME = os.getenv('ADMIN_USERNAME')
 PASSWORD = os.getenv('ADMIN_PASSWORD')
 
 @product_route.get('/', tags=["product"])
-def get_products(user: user_dependency, db: db_dependency):
-    if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='user not found.')
-    
-    user_db = db.query(User).filter(User.user_id == user['user_id']).first()
-
-    if user_db.username != USERNAME or not bcrypt.verify(PASSWORD, user_db.password):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='only for admin.')
+def get_products(db: db_dependency):
 
     products = db.query(Product).all()
 
@@ -46,12 +39,6 @@ def get_products(user: user_dependency, db: db_dependency):
 
 @product_route.get('/{product_id}', tags=["product"])
 def get_product_by_id(product_id: int, user: user_dependency, db: db_dependency):
-    if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail='user not found.')
-    
-    user_db = db.query(User).filter(User.user_id == user['user_id']).first()
-    if user_db.username != USERNAME or not bcrypt.verify(PASSWORD, user_db.password):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail='only for admin.')
 
     product = db.query(Product).filter(Product.product_id == product_id).first()
 
