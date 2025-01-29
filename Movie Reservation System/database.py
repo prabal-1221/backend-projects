@@ -1,13 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from urllib.parse import quote_plus
 
 Base = declarative_base()
 
-password = 'Sql@1234'
-encode_password = quote_plus(password)
-
-DATABASE_URL = f"mysql+pymysql://root:{encode_password}@localhost:3306/moviereservationapplication"
+DATABASE_URL = "sqlite:///./sample.db"
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)

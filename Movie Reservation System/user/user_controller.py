@@ -25,6 +25,7 @@ db_dependency = Annotated[Session, Depends(init_db)]
 @user_route.post("/register", status_code=status.HTTP_201_CREATED)
 def create_user(user_data: UserRequest, db: db_dependency):
     user_db = User(
+        role = "user",
         username = user_data.username,
         email = user_data.email,
         password = bcrypt.hash(user_data.password)
@@ -56,7 +57,7 @@ def authenticate_user(username: str, password: str, db: Session):
     return user_db
 
 def create_token(user_db):
-    encode = {"user_id": user_db.user_id, "username": user_db.username}
+    encode = {"user_id": user_db.user_id, "username": user_db.username, "role": user_db.role}
     expiry = datetime.now() + timedelta(minutes=20)
     encode.update({"exp": expiry})
     return jwt.encode(encode, SECRET_KEY, algorithm=ALGORITHM)
@@ -66,13 +67,14 @@ def get_current_user(token: Annotated[str, Depends(oath2_bearer)], db: db_depend
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload["user_id"]
         username = payload["username"]
+        role = payload["role"]
 
         user_db = db.query(User).filter(User.user_id == user_id).first()
 
         if not user_db:
             raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="user not authenticated.")
         
-        return {"user_id": user_id, "username": username}
+        return {"user_id": user_id, "username": username, "role": role}
     
     except ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="user not authenticated.")

@@ -1,13 +1,20 @@
-from sqlalchemy.orm import Session
 import sys
 sys.path.append('..')
-from database import init_db
-from typing import Annotated
-from fastapi import Depends
-from movie_model import Genre
+from database import SessionLocal
+from .movie_model import Genre
 
-def seed_genres(db: Annotated[Session, Depends(init_db)]):
-    genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Sci-Fi", "Thriller", "Fantasy", "Documentary", "Adventure", "Animation", "Crime", "Mystery", "Historical", "Musical", "Western"]
+def seed_genres():
+    db = SessionLocal()
+    try:
+        genres = ["Action", "Comedy", "Drama", "Horror", "Romance", "Sci-Fi", "Thriller", "Fantasy", "Documentary", "Adventure", "Animation", "Crime", "Mystery", "Historical", "Musical", "Western"]
 
-    for genre in genres:
-        pass
+        for genre in genres:
+            genre_name = db.query(Genre).filter(Genre.genre_name == genre).first()
+
+            if not genre_name:
+                db.add(Genre(genre_name = genre))
+
+        db.commit()
+    
+    finally:
+        db.close()

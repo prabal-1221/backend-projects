@@ -8,9 +8,9 @@ class Movie(Base):
     __tablename__ = "movies"
 
     movie_id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(100), nullable=False)
-    description = Column(String(500), nullable=False)
-    poster = Column(String(100), nullable=False)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    poster = Column(String, nullable=False)
 
     genres = relationship("Genre", secondary="movies_genres", back_populates="movies")
 
@@ -18,7 +18,7 @@ class Genre(Base):
     __tablename__ = "genres"
 
     genre_id = Column(Integer, primary_key=True, index=True)
-    genre_name = Column(String(50), nullable=False)
+    genre_name = Column(String, nullable=False)
 
     movies = relationship("Movie", secondary="movies_genres", back_populates="genres")
 

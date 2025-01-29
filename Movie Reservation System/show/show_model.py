@@ -25,7 +25,7 @@ class Seat(Base):
     show_id = Column(Integer, ForeignKey("shows.show_id"), nullable=False)
     seat_number = Column(Integer, nullable=False)
     is_booked = Column(Boolean, default=False)
-    price = Column(Integer, nullable=False)
+    price = Column(Integer, default=300)
 
     show = relationship("Show", back_populates="seats")
     tickets = relationship("Ticket", back_populates="seat")
